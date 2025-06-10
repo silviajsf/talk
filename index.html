@@ -3,182 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>If I Could Say One More Thing...</title>
+    <title>Temperament Quest 🌟</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --choleric: linear-gradient(135deg, #FF416C, #FF4B2B);
+            --melancholic: linear-gradient(135deg, #4776E6, #8E54E9);
+            --sanguine: linear-gradient(135deg, #FFB347, #FF8C00);
+            --phlegmatic: linear-gradient(135deg, #1D976C, #93F9B9);
+            --dark: #2C3E50;
+            --light: #ECF0F1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
-            line-height: 1.6;
         }
-        
-        .screen {
-            background-color: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            display: none;
-            animation: fadeIn 0.5s;
+
+        .game-container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease;
         }
-        
-        .screen.active {
-            display: block;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        .message {
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 15px;
-            background-color: #e3f2fd;
+
+        .header {
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
             position: relative;
+            overflow: hidden;
         }
-        
-        .message:after {
-            content: '';
-            position: absolute;
-            left: 20px;
-            top: -10px;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 10px solid #e3f2fd;
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
-        
-        .options {
-            margin-top: 30px;
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
-        
-        button {
-            background-color: #4CAF50;
+
+        .disclaimer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin: 20px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            border-left: 4px solid #FF416C;
+        }
+
+        .disclaimer-icon {
+            font-size: 1.2rem;
+            margin-right: 8px;
+            color: #FF416C;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             color: white;
             border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        
-        button:hover {
-            background-color: #45a049;
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
-        
-        .title {
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .intro-screen, .quiz-screen, .result-screen {
+            padding: 25px;
+            display: none;
+        }
+
+        .intro-screen.active, .quiz-screen.active, .result-screen.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .temperament-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .temperament-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s;
+            cursor: pointer;
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        .temperament-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
-        .game-container {
-            margin-top: 30px;
+
+        .temperament-card.choleric { border-top: 4px solid #FF416C; }
+        .temperament-card.melancholic { border-top: 4px solid #4776E6; }
+        .temperament-card.sanguine { border-top: 4px solid #FFB347; }
+        .temperament-card.phlegmatic { border-top: 4px solid #1D976C; }
+
+        .temperament-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .temperament-card p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .quiz-progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .question-container {
+            margin: 20px 0;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .option-btn.selected {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .next-btn {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .result-container {
+            text-align: center;
+        }
+
+        .result-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .result-temperament {
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-temperament.choleric { background: var(--choleric); }
+        .result-temperament.melancholic { background: var(--melancholic); }
+        .result-temperament.sanguine { background: var(--sanguine); }
+        .result-temperament.phlegmatic { background: var(--phlegmatic); }
+
+        .result-temperament h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .result-temperament p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .historical-figure {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .scores-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .score-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .score-card.choleric { border-bottom: 4px solid #FF416C; }
+        .score-card.melancholic { border-bottom: 4px solid #4776E6; }
+        .score-card.sanguine { border-bottom: 4px solid #FFB347; }
+        .score-card.phlegmatic { border-bottom: 4px solid #1D976C; }
+
+        .score-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .share-btn {
+            margin-top: 20px;
+            background: linear-gradient(135deg, #1D976C, #93F9B9);
+            color: #2C3E50;
+        }
+
+        .restart-btn {
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .temperament-cards {
+                grid-template-columns: 1fr;
+            }
+            .scores-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="title">
-        <h1>If I Could Say One More Thing…</h1>
-        <p>Welcome to a little interactive story. Just tap next. No pressure.</p>
-    </div>
-    
     <div class="game-container">
-        <div class="screen" id="screen1">
-            <div class="message">Hi... I know this is unexpected.</div>
-            <div class="message">But I just needed to say something. To someone I used to trust.</div>
-            <div class="options">
-                <button onclick="nextScreen(2)">Next</button>
-            </div>
+        <div class="header">
+            <h1>🌠 Temperament Quest</h1>
+            <p>Discover your personality type based on classical Islamic psychology</p>
         </div>
-        
-        <div class="screen" id="screen2">
-            <div class="message">Lately I've been feeling... off.</div>
-            <div class="message">Not in a dramatic way. Just a quiet kind of sad that doesn't go away.</div>
-            <div class="options">
-                <button onclick="nextScreen(3)">Keep going</button>
-            </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <span class="disclaimer-icon">⚠️</span>
+            <strong>Disclaimer:</strong> This quiz is for fun and self-reflection. It's not a psychological diagnosis. Each temperament has strengths—balance is key!
         </div>
-        
-        <div class="screen" id="screen3">
-            <div class="message">I tried distracting myself. Music, tasks, sleep, silence.</div>
-            <div class="message">But somehow, in all that noise, I still thought of you.</div>
-            <div class="options">
-                <button onclick="nextScreen(4)">Why me?</button>
+
+        <!-- Intro Screen -->
+        <div class="intro-screen active">
+            <h2>✨ The Four Temperaments</h2>
+            <p>Based on the teachings of Ibn Sina, discover which personality type resonates with you:</p>
+            
+            <div class="temperament-cards">
+                <div class="temperament-card choleric">
+                    <h3>🔥 Choleric</h3>
+                    <p>"The Doer" - Bold, leader, driven</p>
+                    <small>Example: Umar bin Khattab (RA)</small>
+                </div>
+                <div class="temperament-card melancholic">
+                    <h3>💡 Melancholic</h3>
+                    <p>"The Thinker" - Deep, analytical</p>
+                    <small>Example: Uthman bin Affan (RA)</small>
+                </div>
+                <div class="temperament-card sanguine">
+                    <h3>🎉 Sanguine</h3>
+                    <p>"The Talker" - Social, lively</p>
+                    <small>Example: Charismatic personalities</small>
+                </div>
+                <div class="temperament-card phlegmatic">
+                    <h3>🕊️ Phlegmatic</h3>
+                    <p>"The Peacemaker" - Calm, wise</p>
+                    <small>Example: Abu Bakar (RA)</small>
+                </div>
             </div>
+
+            <button class="btn start-btn">Begin Your Quest →</button>
         </div>
-        
-        <div class="screen" id="screen4">
-            <div class="message">Maybe because you were once the safest place I knew.</div>
-            <div class="message">Not because everything was perfect, but because I could just... talk.</div>
-            <div class="options">
-                <button onclick="nextScreen(5, 'That\'s fair')">That's fair</button>
-                <button onclick="nextScreen(5, 'Still listening...')">Still listening...</button>
+
+        <!-- Quiz Screen -->
+        <div class="quiz-screen">
+            <div class="quiz-progress">
+                <div class="progress-bar" id="progress-bar"></div>
             </div>
+
+            <div class="question-container" id="question-container">
+                <!-- Questions will be inserted here by JavaScript -->
+            </div>
+
+            <button class="btn next-btn" id="next-btn" disabled>Next Question →</button>
         </div>
-        
-        <div class="screen" id="screen5">
-            <div class="message">I'm not here to reopen anything.</div>
-            <div class="message">I just wanted to share what I couldn't say out loud. Because sometimes, typing is easier than talking.</div>
-            <div class="options">
-                <button onclick="nextScreen(6)">So what now?</button>
+
+        <!-- Result Screen -->
+        <div class="result-screen">
+            <h1 class="result-title">Your Temperament Revealed!</h1>
+            
+            <div class="result-temperament" id="result-temperament">
+                <!-- Result will be inserted here by JavaScript -->
             </div>
-        </div>
-        
-        <div class="screen" id="screen6">
-            <div class="message">So… if you'd still listen,</div>
-            <div class="message">maybe we could meet.</div>
-            <div class="message">Just to talk. No expectations. No drama. Just... two people who once understood each other.</div>
-            <div class="options">
-                <button onclick="endGame('Let\'s talk')">Let's talk</button>
-                <button onclick="endGame('I don\'t think I can')">I don't think I can</button>
+
+            <h3>Your Temperament Scores:</h3>
+            <div class="scores-container" id="scores-container">
+                <!-- Scores will be inserted here by JavaScript -->
             </div>
+
+            <button class="btn share-btn" id="share-btn">Share Your Result 📲</button>
+            <button class="btn restart-btn" id="restart-btn">Take Quiz Again 🔄</button>
         </div>
     </div>
 
     <script>
-        // Show first screen when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('screen1').classList.add('active');
-        });
-        
-        // Function to go to next screen
-        function nextScreen(screenNum, choiceText = '') {
-            // Hide all screens
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            
-            // Show the requested screen
-            document.getElementById('screen' + screenNum).classList.add('active');
-            
-            // Scroll to top of screen
-            window.scrollTo(0, 0);
-            
-            // If there was a choice, you could log it here
-            if (choiceText) {
-                console.log('User chose: ' + choiceText);
+        // Game Data
+        const questions = [
+            {
+                question: "When facing a challenge, you usually...",
+                options: [
+                    "Take charge and act immediately",
+                    "Analyze all details before deciding",
+                    "Discuss it with friends first",
+                    "Stay calm and think it through slowly"
+                ],
+                weights: [3, 1, 0, 2] // Choleric, Melancholic, Sanguine, Phlegmatic
+            },
+            {
+                question: "In a group discussion, you're most likely to...",
+                options: [
+                    "Lead the conversation and make decisions",
+                    "Listen carefully and give thoughtful input",
+                    "Keep the energy high with jokes and stories",
+                    "Mediate conflicts and find common ground"
+                ],
+                weights: [3, 1, 0, 2]
+            },
+            {
+                question: "Your friends would describe you as...",
+                options: [
+                    "Determined and strong-willed",
+                    "Deep and perfectionistic",
+                    "Fun-loving and enthusiastic",
+                    "Patient and easygoing"
+                ],
+                weights: [3, 1, 0, 2]
+            },
+            {
+                question: "When learning something new, you prefer...",
+                options: [
+                    "Jumping right into practical application",
+                    "Studying all the theory first",
+                    "Learning in a fun, social environment",
+                    "Taking your time to fully understand"
+                ],
+                weights: [3, 1, 0, 2]
+            },
+            {
+                question: "Your biggest strength is...",
+                options: [
+                    "Leadership and getting results",
+                    "Attention to detail and analysis",
+                    "Making people feel comfortable",
+                    "Keeping peace and balance"
+                ],
+                weights: [3, 1, 0, 2]
+            },
+            {
+                question: "When stressed, you tend to...",
+                options: [
+                    "Become impatient or frustrated",
+                    "Withdraw and overthink",
+                    "Become overly emotional",
+                    "Avoid confrontation"
+                ],
+                weights: [3, 1, 0, 2]
             }
+        ];
+
+        // Game State
+        let currentQuestion = 0;
+        let scores = [0, 0, 0, 0]; // Choleric, Melancholic, Sanguine, Phlegmatic
+        let selectedOption = null;
+
+        // DOM Elements
+        const introScreen = document.querySelector('.intro-screen');
+        const quizScreen = document.querySelector('.quiz-screen');
+        const resultScreen = document.querySelector('.result-screen');
+        const startBtn = document.querySelector('.start-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const shareBtn = document.getElementById('share-btn');
+        const questionContainer = document.getElementById('question-container');
+        const progressBar = document.getElementById('progress-bar');
+        const resultTemperament = document.getElementById('result-temperament');
+        const scoresContainer = document.getElementById('scores-container');
+
+        // Event Listeners
+        startBtn.addEventListener('click', startGame);
+        nextBtn.addEventListener('click', nextQuestion);
+        restartBtn.addEventListener('click', restartGame);
+        shareBtn.addEventListener('click', shareResult);
+
+        // Start the Game
+        function startGame() {
+            introScreen.classList.remove('active');
+            quizScreen.classList.add('active');
+            showQuestion();
         }
-        
-        // Function for ending the game
-        function endGame(choice) {
-            alert('You chose: ' + choice + '\n\nThank you for experiencing this story.');
-            console.log('Game ended with choice: ' + choice);
+
+        // Show Current Question
+        function showQuestion() {
+            progressBar.style.width = `${(currentQuestion / questions.length) * 100}%`;
             
-            // You could add code here to restart the game or do something else
+            if (currentQuestion >= questions.length) {
+                showResult();
+                return;
+            }
+
+            const question = questions[currentQuestion];
+            let questionHTML = `
+                <div class="question-text">${question.question}</div>
+                <div class="options-container">
+            `;
+
+            question.options.forEach((option, index) => {
+                questionHTML += `
+                    <button class="option-btn" onclick="selectOption(${index})">
+                        ${option}
+                    </button>
+                `;
+            });
+
+            questionHTML += `</div>`;
+            questionContainer.innerHTML = questionHTML;
+            nextBtn.disabled = true;
         }
+
+        // Select an Option
+        function selectOption(index) {
+            const optionBtns = document.querySelectorAll('.option-btn');
+            optionBtns.forEach(btn => btn.classList.remove('selected'));
+            optionBtns[index].classList.add('selected');
+            
+            selectedOption = index;
+            nextBtn.disabled = false;
+        }
+
+        // Next Question
+        function nextQuestion() {
+            // Update scores based on selected option
+            const weights = questions[currentQuestion].weights;
+            for (let i = 0; i < weights.length; i++) {
+                scores[i] += weights[i] * (selectedOption === i ? 1 : 0);
+            }
+            
+            currentQuestion++;
+            showQuestion();
+        }
+
+        // Show Final Result
+        function showResult() {
+            quizScreen.classList.remove('active');
+            resultScreen.classList.add('active');
+
+            const maxScore = Math.max(...scores);
+            let temperament = '';
+            let description = '';
+            let historicalFigure = '';
+            let className = '';
+
+            if (scores[0] === maxScore) {
+                temperament = '🔥 Choleric';
+                description = 'You are a natural leader with strong determination. Like Umar bin Khattab (RA), you take action and get results. Your challenge is balancing boldness with patience.';
+                historicalFigure = 'Historical Example: Umar bin Khattab (RA) - Bold, decisive leader';
+                className = 'choleric';
+            } else if (scores[1] === maxScore) {
+                temperament = '💡 Melancholic';
+                description = 'You are thoughtful and analytical. Like Uthman bin Affan (RA), you appreciate depth and perfection. Your challenge is avoiding overthinking.';
+                historicalFigure = 'Historical Example: Uthman bin Affan (RA) - Deep, detail-oriented';
+                className = 'melancholic';
+            } else if (scores[2] === maxScore) {
+                temperament = '🎉 Sanguine';
+                description = 'You are lively and sociable. You bring energy to any gathering. Your challenge is developing focus and depth.';
+                historicalFigure = 'Historical Example: Charismatic companions';
+                className = 'sanguine';
+            } else {
+                temperament = '🕊️ Phlegmatic';
+                description = 'You are calm and diplomatic. Like Abu Bakar (RA), you bring wisdom and balance. Your challenge is taking more initiative when needed.';
+                historicalFigure = 'Historical Example: Abu Bakar (RA) - Wise, gentle peacemaker';
+                className = 'phlegmatic';
+            }
+
+            // Set result display
+            resultTemperament.className = `result-temperament ${className}`;
+            resultTemperament.innerHTML = `
+                <h2>${temperament}</h2>
+                <p>${description}</p>
+                <div class="historical-figure">${historicalFigure}</div>
+            `;
+
+            // Set scores display
+            scoresContainer.innerHTML = `
+                <div class="score-card choleric">
+                    <h3>Choleric</h3>
+                    <div class="score-value">${scores[0]}</div>
+                </div>
+                <div class="score-card melancholic">
+                    <h3>Melancholic</h3>
+                    <div class="score-value">${scores[1]}</div>
+                </div>
+                <div class="score-card sanguine">
+                    <h3>Sanguine</h3>
+                    <div class="score-value">${scores[2]}</div>
+                </div>
+                <div class="score-card phlegmatic">
+                    <h3>Phlegmatic</h3>
+                    <div class="score-value">${scores[3]}</div>
+                </div>
+            `;
+        }
+
+        // Restart Game
+        function restartGame() {
+            currentQuestion = 0;
+            scores = [0, 0, 0, 0];
+            resultScreen.classList.remove('active');
+            quizScreen.classList.add('active');
+            showQuestion();
+        }
+
+        // Share Result
+        function shareResult() {
+            const temperament = resultTemperament.querySelector('h2').textContent;
+            alert(`Share your result: "I got ${temperament} in the Temperament Quest! Discover yours too!"`);
+            // In a real app, you would implement actual sharing functionality
+        }
+
+        // Make selectOption available globally
+        window.selectOption = selectOption;
     </script>
 </body>
 </html>
