@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>If I Could Say One More Thing...</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .screen {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            background-color: #e3f2fd;
+            position: relative;
+        }
+        
+        .message:after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: -10px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #e3f2fd;
+        }
+        
+        .options {
+            margin-top: 30px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .game-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <h1>If I Could Say One More Thing…</h1>
+        <p>Welcome to a little interactive story. Just tap next. No pressure.</p>
+    </div>
+    
+    <div class="game-container">
+        <div class="screen" id="screen1">
+            <div class="message">Hi... I know this is unexpected.</div>
+            <div class="message">But I just needed to say something. To someone I used to trust.</div>
+            <div class="options">
+                <button onclick="nextScreen(2)">Next</button>
+            </div>
+        </div>
+        
+        <div class="screen" id="screen2">
+            <div class="message">Lately I've been feeling... off.</div>
+            <div class="message">Not in a dramatic way. Just a quiet kind of sad that doesn't go away.</div>
+            <div class="options">
+                <button onclick="nextScreen(3)">Keep going</button>
+            </div>
+        </div>
+        
+        <div class="screen" id="screen3">
+            <div class="message">I tried distracting myself. Music, tasks, sleep, silence.</div>
+            <div class="message">But somehow, in all that noise, I still thought of you.</div>
+            <div class="options">
+                <button onclick="nextScreen(4)">Why me?</button>
+            </div>
+        </div>
+        
+        <div class="screen" id="screen4">
+            <div class="message">Maybe because you were once the safest place I knew.</div>
+            <div class="message">Not because everything was perfect, but because I could just... talk.</div>
+            <div class="options">
+                <button onclick="nextScreen(5, 'That\'s fair')">That's fair</button>
+                <button onclick="nextScreen(5, 'Still listening...')">Still listening...</button>
+            </div>
+        </div>
+        
+        <div class="screen" id="screen5">
+            <div class="message">I'm not here to reopen anything.</div>
+            <div class="message">I just wanted to share what I couldn't say out loud. Because sometimes, typing is easier than talking.</div>
+            <div class="options">
+                <button onclick="nextScreen(6)">So what now?</button>
+            </div>
+        </div>
+        
+        <div class="screen" id="screen6">
+            <div class="message">So… if you'd still listen,</div>
+            <div class="message">maybe we could meet.</div>
+            <div class="message">Just to talk. No expectations. No drama. Just... two people who once understood each other.</div>
+            <div class="options">
+                <button onclick="endGame('Let\'s talk')">Let's talk</button>
+                <button onclick="endGame('I don\'t think I can')">I don't think I can</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show first screen when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('screen1').classList.add('active');
+        });
+        
+        // Function to go to next screen
+        function nextScreen(screenNum, choiceText = '') {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show the requested screen
+            document.getElementById('screen' + screenNum).classList.add('active');
+            
+            // Scroll to top of screen
+            window.scrollTo(0, 0);
+            
+            // If there was a choice, you could log it here
+            if (choiceText) {
+                console.log('User chose: ' + choiceText);
+            }
+        }
+        
+        // Function for ending the game
+        function endGame(choice) {
+            alert('You chose: ' + choice + '\n\nThank you for experiencing this story.');
+            console.log('Game ended with choice: ' + choice);
+            
+            // You could add code here to restart the game or do something else
+        }
+    </script>
+</body>
+</html>
